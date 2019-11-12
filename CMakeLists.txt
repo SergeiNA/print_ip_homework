@@ -1,57 +1,54 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.7)
 
 if(NOT DEFINED ENV{TRAVIS_BUILD_NUMBER})
     set(ENV{TRAVIS_BUILD_NUMBER} 10000)
 endif()
 
-project(print_tp VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
+project(print_ip VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 
 find_package(Threads REQUIRED)
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
+configure_file(version.h.in ${PROJECT_SOURCE_DIR}/version.h)
 
+add_executable(print_ip main.cpp print_ip.h print_traits.h)
 
-add_executable(print_ip main.cpp print_ip.h)
+add_executable(test_print_ip test_print_ip.cpp print_ip.h print_traits.h)
 
-#add_library(filter_lib filter.cpp filter.h)
-
-#add_executable(ip_filter_tests ip_filter_tests.cpp)
-
-set_target_properties(print_ip PROPERTIES
+set_target_properties(print_ip test_print_ip PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
     COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
 )
 
-# set_target_properties(ip_filter_tests PROPERTIES
-#     COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
-#     INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
-# )
+set_target_properties(test_print_ip PROPERTIES
+    COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+    INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
+)
 
 target_link_libraries(print_ip
-    #filter_lib
     Threads::Threads
 )
 
-# target_link_libraries(ip_filter_tests
-#     ${Boost_LIBRARIES}
-#     filter_lib
-# )
+target_link_libraries(test_print_ip
+    ${Boost_LIBRARIES}
+)
 
-# install(TARGETS ip_filter RUNTIME DESTINATION bin)
+install(TARGETS print_ip RUNTIME DESTINATION bin)
 
-# set(CPACK_GENERATOR DEB)
+set(CPACK_GENERATOR DEB)
 
-# set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
-# set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
-# set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
+set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${PROJECT_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
 
-# set(CPACK_PACKAGE_CONTACT "SergeiNA at github.com")
+set(CPACK_PACKAGE_CONTACT "SergeiNA at github.com")
 
-# set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 
-# include(CPack)
+include(CPack)
 
-# enable_testing()
+enable_testing()
 
-# add_test(ip_filter_tests_all ip_filter_tests)
+add_test(print_ip_tests test_print_ip)
+
