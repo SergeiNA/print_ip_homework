@@ -15,6 +15,9 @@
 #include <tuple>
 #include <vector>
 
+/// need for travis
+template<typename... T>
+constexpr bool is_integral_v = std::is_integral<T...>::value;
 
 ///is_all_same
 template<typename... Args>

@@ -52,7 +52,7 @@ void printTuple(const Tuple& val, int_t<1>, std::ostream& os) {
 
 /// Template specialization for integral types
 template<class T>
-typename std::enable_if<std::is_integral_v<T>, void>::type
+typename std::enable_if<is_integral_v<T>, void>::type
  print_ip(const T& val, std::ostream& os = std::cout) {
 	T t_val = val;
 	Separator sp('.');
