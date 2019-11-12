@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.7)
 
 if(NOT DEFINED ENV{TRAVIS_BUILD_NUMBER})
-    set(ENV{TRAVIS_BUILD_NUMBER} 10000)
+    set(ENV{TRAVIS_BUILD_NUMBER} 777)
 endif()
 
 project(print_ip VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
