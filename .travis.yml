@@ -26,7 +26,7 @@ deploy:
       branch: master
   - provider: pages
     skip_cleanup: true
-    local_dir: $TRAVIS_BUILD_DIR/docs/html
+    local_dir: $TRAVIS_BUILD_DIR/doxygen/html
     github_token: $GH_REPO_TOKEN
     on:
       branch: master
